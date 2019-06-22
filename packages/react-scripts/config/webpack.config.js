@@ -43,6 +43,7 @@ const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 // Some apps do not need the benefits of saving a web request, so not inlining the chunk
 // makes for a smoother build process.
 const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== 'false';
+const shouldLint = process.env.LINT_FILES === 'true';
 
 const imageInlineSizeLimit = parseInt(
   process.env.IMAGE_INLINE_SIZE_LIMIT || '10000'
@@ -56,6 +57,37 @@ const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
+
+const rules = [
+  // Disable require.ensure as it's not a standard language feature.
+  { parser: { requireEnsure: false } },
+];
+
+if (shouldLint) {
+  // First, run the linter. if it is enabled
+  // It's important to do this before Babel processes the JS.
+  rules.push({
+    test: /\.(js|mjs|jsx|ts|tsx)$/,
+    enforce: 'pre',
+    use: [
+      {
+        options: {
+          formatter: require.resolve('react-dev-utils/eslintFormatter'),
+          eslintPath: require.resolve('eslint'),
+          // @remove-on-eject-begin
+          baseConfig: {
+            extends: [require.resolve('eslint-config-react-app')],
+          },
+          ignore: false,
+          useEslintrc: false,
+          // @remove-on-eject-end
+        },
+        loader: require.resolve('eslint-loader'),
+      },
+    ],
+    include: paths.appSrc,
+  });
+}
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -309,32 +341,7 @@ module.exports = function(webpackEnv) {
     module: {
       strictExportPresence: true,
       rules: [
-        // Disable require.ensure as it's not a standard language feature.
-        { parser: { requireEnsure: false } },
-
-        // First, run the linter.
-        // It's important to do this before Babel processes the JS.
-        {
-          test: /\.(js|mjs|jsx|ts|tsx)$/,
-          enforce: 'pre',
-          use: [
-            {
-              options: {
-                formatter: require.resolve('react-dev-utils/eslintFormatter'),
-                eslintPath: require.resolve('eslint'),
-                // @remove-on-eject-begin
-                baseConfig: {
-                  extends: [require.resolve('eslint-config-react-app')],
-                },
-                ignore: false,
-                useEslintrc: false,
-                // @remove-on-eject-end
-              },
-              loader: require.resolve('eslint-loader'),
-            },
-          ],
-          include: paths.appSrc,
-        },
+        ...rules,
         {
           // "oneOf" will traverse all following loaders until one will
           // match the requirements. When no loader matches it will fall
