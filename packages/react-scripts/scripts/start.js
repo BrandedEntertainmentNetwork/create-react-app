@@ -81,6 +81,7 @@ const customServerConfigs = {};
 
 if (process.env.WEBPACK_LOG_LEVEL) {
   customServerConfigs.clientLogLevel = process.env.WEBPACK_LOG_LEVEL;
+  console.log(customServerConfigs.clientLogLevel);
 }
 
 // We require that you explicitly set browsers and do not fall back to
@@ -132,12 +133,13 @@ checkBrowsers(paths.appPath, isInteractive)
     );
     // Launch WebpackDevServer.
     devServer.listen(port, HOST, err => {
+      console.log(port, HOST, err);
       if (err) {
         return console.log(err);
       }
-      if (isInteractive) {
-        clearConsole();
-      }
+      // if (isInteractive) {
+      //   clearConsole();
+      // }
 
       // We used to support resolving modules according to `NODE_PATH`.
       // This now has been deprecated in favor of jsconfig/tsconfig.json
@@ -151,7 +153,7 @@ checkBrowsers(paths.appPath, isInteractive)
         console.log();
       }
 
-      console.log(chalk.cyan('Starting the development server...\n'));
+      // console.log(chalk.cyan('Starting the development server...\n'));
       openBrowser(urls.localUrlForBrowser);
     });
 

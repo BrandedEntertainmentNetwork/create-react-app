@@ -248,6 +248,10 @@ function createCompiler({
           ' to the line before.\n'
       );
     }
+    console.log(chalk.yellow(`Hash: ${stats.hash}`));
+    console.log(
+      chalk.yellow(`Compile time: ${stats.endTime - stats.startTime}ms`)
+    );
   });
 
   // You can safely remove this after ejecting.
