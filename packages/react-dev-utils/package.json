@@ -1,6 +1,6 @@
 {
   "name": "ben-react-dev-utils",
-  "version": "9.0.1",
+  "version": "9.0.2",
   "description": "Webpack utilities used by Create React App",
   "repository": {
     "type": "git",
