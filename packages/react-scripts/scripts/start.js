@@ -77,6 +77,12 @@ if (process.env.HOST) {
   console.log();
 }
 
+const customServerConfigs = {};
+
+if (process.env.WEBPACK_LOG_LEVEL) {
+  customServerConfigs.clientLogLevel = process.env.WEBPACK_LOG_LEVEL;
+}
+
 // We require that you explicitly set browsers and do not fall back to
 // browserslist defaults.
 const { checkBrowsers } = require('react-dev-utils/browsersHelper');
@@ -120,7 +126,10 @@ checkBrowsers(paths.appPath, isInteractive)
       proxyConfig,
       urls.lanUrlForConfig
     );
-    const devServer = new WebpackDevServer(compiler, serverConfig);
+    const devServer = new WebpackDevServer(
+      compiler,
+      Object.assign({}, serverConfig, customServerConfigs)
+    );
     // Launch WebpackDevServer.
     devServer.listen(port, HOST, err => {
       if (err) {
