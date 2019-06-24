@@ -81,7 +81,6 @@ const customServerConfigs = {};
 
 if (process.env.WEBPACK_LOG_LEVEL) {
   customServerConfigs.clientLogLevel = process.env.WEBPACK_LOG_LEVEL;
-  console.log(customServerConfigs.clientLogLevel);
 }
 
 // We require that you explicitly set browsers and do not fall back to
@@ -153,7 +152,7 @@ checkBrowsers(paths.appPath, isInteractive)
         console.log();
       }
 
-      // console.log(chalk.cyan('Starting the development server...\n'));
+      console.log(chalk.cyan('Starting the development server...\n'));
       openBrowser(urls.localUrlForBrowser);
     });
 

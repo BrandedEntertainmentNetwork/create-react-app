@@ -99,8 +99,6 @@ checkBrowsers(paths.appPath, isInteractive)
         console.log(chalk.green('Compiled successfully.\n'));
       }
 
-      console.log(stats);
-
       console.log('File sizes after gzip:\n');
       printFileSizesAfterBuild(
         stats,
