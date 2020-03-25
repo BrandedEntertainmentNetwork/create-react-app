@@ -8,11 +8,11 @@
 // @remove-on-eject-end
 'use strict';
 
+const fs = require('fs');
 const errorOverlayMiddleware = require('ben-react-dev-utils/errorOverlayMiddleware');
 const evalSourceMapMiddleware = require('ben-react-dev-utils/evalSourceMapMiddleware');
 const noopServiceWorkerMiddleware = require('ben-react-dev-utils/noopServiceWorkerMiddleware');
 const ignoredFiles = require('ben-react-dev-utils/ignoredFiles');
-const fs = require('fs');
 const redirectServedPath = require('ben-react-dev-utils/redirectServedPathMiddleware');
 const paths = require('./paths');
 const getHttpsConfig = require('./getHttpsConfig');
